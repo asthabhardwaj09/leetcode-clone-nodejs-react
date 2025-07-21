@@ -85,7 +85,7 @@ function Developer() {
           developers. Our powerful development tools such as Playground help you test,
         </p>
 
-        <p className='text-sm mb-2'>
+        <p className='text-sm mb-2 text-center'>
           debug and even write your own projects online.
         </p>
 
@@ -97,7 +97,7 @@ function Developer() {
         {/* Left Developer Card */}
         <div
           className="flex flex-col bg-white rounded-xl shadow overflow-hidden"
-          style={{ width: '650px', height: '400px' }}
+          style={{ width: '500px', height: '350px' }}
         >
 
           {/* Tabs */}
@@ -166,7 +166,7 @@ function Developer() {
         </div>
 
         {/* Right Sidebar Card */}
-        <aside style={{ width: '180px', height: '350px' }}>
+        <aside style={{ width: '150px', height: '250px' }}>
           <div className="bg-white rounded-xl shadow p-3 h-full">
             <h2 className="font-semibold text-xs mb-2">Topics</h2>
             <ul className="space-y-1 text-xs">

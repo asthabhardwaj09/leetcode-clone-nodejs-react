@@ -1,14 +1,48 @@
-import { NavLink } from "react-router-dom";
+function Header({ preniumref, exploreref, productref, developerref }) {
 
-function Header() {
+  const handleScroll = (ref) => {
+    ref.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const linkClasses =
+    "relative inline-block text-white transition duration-300 ease-in-out hover:text-teal-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-teal-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full";
+
+  const premiumLinkClasses =
+    "relative inline-block text-yellow-400 font-semibold after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-yellow-400 after:transition-all after:duration-300 after:ease-in-out hover:after:w-full";
+
   return (
-    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-[#0d1117] overflow-hidden">
 
-      <div className="flex items-center justify-between max-w-7xl w-full px-8">
+      {/* Navbar thoda niche laya gaya hai using mt-6 */}
+      <nav className="bg-[#0d1117] backdrop-blur-sm bg-opacity-80 sticky top-0 z-50 mb-10 mt-6">
+        <div className="max-w-7xl mx-auto pr-20 py-4 flex items-center justify-end gap-10 text-md font-extralight">
+
+          {/* Premium Always Gold */}
+          <a onClick={() => handleScroll(preniumref)} className={premiumLinkClasses}>
+            Premium
+          </a>
+
+          {/* Other Links */}
+          <a onClick={() => handleScroll(exploreref)} className={linkClasses}>
+            Explore
+          </a>
+          <a onClick={() => handleScroll(productref)} className={linkClasses}>
+            Product
+          </a>
+          <a onClick={() => handleScroll(developerref)} className={linkClasses}>
+            Developer
+          </a>
+          <a className={linkClasses}>Sign in</a>
+
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="flex items-center justify-between max-w-7xl mx-auto px-8 py-10">
 
         {/* Image Section */}
         <div className="w-1/2 flex justify-start">
-          <div className="rounded-lg overflow-hidden ml-10">
+          <div className="rounded-lg overflow-hidden ml-10 mb-6">
             <img
               src="https://yellowcherry.uk/wp-content/uploads/2022/05/website-design-animation-scene-2023-11-27-05-26-42-utc1.gif"
               alt="Coding Background"
@@ -28,8 +62,7 @@ function Header() {
             A New Way to Learn
           </h1>
           <p className="text-gray-300 mb-2 text-sm font-normal">
-            LeetCode is the best platform to help you enhance your skills,
-            expand
+            LeetCode is the best platform to help you enhance your skills, expand
           </p>
           <p className="text-gray-300 mb-6 text-sm font-light">
             your knowledge and prepare for technical interviews.
