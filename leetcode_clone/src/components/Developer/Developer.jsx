@@ -38,6 +38,7 @@ function Developer() {
   const [language, setLanguage] = useState('cpp');
   const [code, setCode] = useState(defaultSnippets['cpp']);
   const [output, setOutput] = useState('');
+  const [userInput, setUserInput] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('Linked List');
   const editorRef = useRef(null);
 
@@ -49,13 +50,24 @@ function Developer() {
     navigator.clipboard.writeText(code);
   };
 
-  const handleRun = () => {
-    if (language === 'cpp') {
-      setOutput('Finished in 12 ms\nHello from C++');
-    } else if (language === 'java') {
-      setOutput('Finished in 20 ms\nHello from Java');
-    } else if (language === 'python') {
-      setOutput('Finished in 8 ms\nHello from Python');
+  const handleRun = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/run", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code,
+          language,
+          input: userInput,
+        }),
+      });
+      const data = await response.json();
+      setOutput(data.output);
+    } catch (error) {
+      console.error("Error running code:", error);
+      setOutput("Error executing code");
     }
   };
 
@@ -75,20 +87,16 @@ function Developer() {
       </div>
 
       {/* Heading + Paragraph Text */}
-      <div className='text-gray-500 mb-3'>  {/* Gap equal to icon and Developer text */}
-
+      <div className='text-gray-500 mb-3'>
         <p className='text-sm mb-2'>
           We now support 14 popular coding languages. At our core, LeetCode is about
         </p>
-
         <p className='text-sm mb-2'>
           developers. Our powerful development tools such as Playground help you test,
         </p>
-
         <p className='text-sm mb-2 text-center'>
           debug and even write your own projects online.
         </p>
-
       </div>
 
       {/* Cards Section */}
@@ -97,7 +105,7 @@ function Developer() {
         {/* Left Developer Card */}
         <div
           className="flex flex-col bg-white rounded-xl shadow overflow-hidden"
-          style={{ width: '500px', height: '350px' }}
+          style={{ width: '500px', height: '450px' }}
         >
 
           {/* Tabs */}
@@ -143,8 +151,8 @@ function Developer() {
           </div>
 
           {/* Editor + Output */}
-          <div className="flex flex-1">
-            <div className="w-1/2 h-full">
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 h-full">
               <Editor
                 theme="vs-dark"
                 language={language}
@@ -156,10 +164,20 @@ function Developer() {
                   minimap: { enabled: false },
                   automaticLayout: true,
                 }}
-                height="100%"
+                height="200px"
               />
             </div>
-            <div className="w-1/2 h-full bg-gray-50 p-2 overflow-auto text-xs text-gray-700 whitespace-pre-wrap">
+            <div className="px-2 py-1 text-xs text-gray-600">
+              <label className="block mb-1">User Input:</label>
+              <textarea
+                rows="3"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className="w-full border rounded px-2 py-1"
+                placeholder="Enter input here..."
+              />
+            </div>
+            <div className="w-full h-24 bg-gray-50 p-2 overflow-auto text-xs text-gray-700 whitespace-pre-wrap border-t">
               {output || 'Output will appear here after running the code.'}
             </div>
           </div>
