@@ -51,6 +51,7 @@ function Developer() {
   };
 
   const handleRun = async () => {
+    setOutput("Running...");
     try {
       const response = await fetch("http://localhost:5000/run", {
         method: "POST",
@@ -73,20 +74,16 @@ function Developer() {
 
   return (
     <div className="min-h-screen bg-black p-4 flex flex-col items-center">
-
-      {/* 👤 Icon */}
       <div className="mb-3">
         <div className="bg-teal-500 p-1 rounded-full shadow-md">
           <FaUserCircle size={50} className="text-gray-500" />
         </div>
       </div>
 
-      {/* Developer Text */}
       <div className="mb-3">
         <span className='text-teal-500 text-xl font-semibold text-center'>Developer</span>
       </div>
 
-      {/* Heading + Paragraph Text */}
       <div className='text-gray-500 mb-3'>
         <p className='text-sm mb-2'>
           We now support 14 popular coding languages. At our core, LeetCode is about
@@ -99,16 +96,11 @@ function Developer() {
         </p>
       </div>
 
-      {/* Cards Section */}
       <div className="flex items-start justify-center gap-6 w-full max-w-[1100px]">
-
-        {/* Left Developer Card */}
         <div
           className="flex flex-col bg-white rounded-xl shadow overflow-hidden"
           style={{ width: '500px', height: '450px' }}
         >
-
-          {/* Tabs */}
           <div className="flex bg-gray-100 border-b px-2 text-xs">
             {languageOptions.map((opt) => (
               <button
@@ -129,7 +121,6 @@ function Developer() {
             ))}
           </div>
 
-          {/* Toolbar */}
           <div className="flex items-center gap-2 px-2 py-1 border-b bg-white text-xs">
             <button
               onClick={handleCopy}
@@ -150,7 +141,6 @@ function Developer() {
             </button>
           </div>
 
-          {/* Editor + Output */}
           <div className="flex-1 flex flex-col">
             <div className="flex-1 h-full">
               <Editor
@@ -183,7 +173,6 @@ function Developer() {
           </div>
         </div>
 
-        {/* Right Sidebar Card */}
         <aside style={{ width: '150px', height: '250px' }}>
           <div className="bg-white rounded-xl shadow p-3 h-full">
             <h2 className="font-semibold text-xs mb-2">Topics</h2>
@@ -215,7 +204,6 @@ function Developer() {
             </AnimatePresence>
           </div>
         </aside>
-
       </div>
     </div>
   );

@@ -1,9 +1,32 @@
 {
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "framer-motion": "^12.23.6",
+    "lucide-react": "^0.532.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.0"
-  }
+  },
+  "name": "leetcode-clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asthabhardwaj09/leetcode-clone-nodejs-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/asthabhardwaj09/leetcode-clone-nodejs-react/issues"
+  },
+  "homepage": "https://github.com/asthabhardwaj09/leetcode-clone-nodejs-react#readme"
 }

@@ -1,4 +1,4 @@
-function Header({ preniumref, exploreref, productref, developerref }) {
+function Header({ preniumref, exploreref, productref, developerref, playgroundref}) {
 
   const handleScroll = (ref) => {
     ref.current.scrollIntoView({ behavior: 'smooth' });
@@ -32,7 +32,7 @@ function Header({ preniumref, exploreref, productref, developerref }) {
           <a onClick={() => handleScroll(developerref)} className={linkClasses}>
             Developer
           </a>
-          <a className={linkClasses}>Sign in</a>
+          <a onClick={() => handleScroll(playgroundref)} className={linkClasses}>Playground</a>
 
         </div>
       </nav>
