@@ -3,6 +3,12 @@ const axios = require("axios");
 const executeCode = async (req, res) => {
   const { code, language_id, input } = req.body;
 
+  // Validate required fields
+  if (!code || !language_id) {
+    return res.status(400).json({ error: "Code and language_id are required." });
+  }
+
+  // Encode source code and input
   const encodedCode = Buffer.from(code).toString("base64");
   const encodedInput = Buffer.from(input || "").toString("base64");
 
@@ -25,7 +31,7 @@ const executeCode = async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("Execution Error:", error);
+    console.error("Execution Error:", error?.response?.data || error.message);
     res.status(500).json({ error: "Code execution failed." });
   }
 };

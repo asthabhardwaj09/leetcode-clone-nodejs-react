@@ -1,7 +1,12 @@
-function Header({ preniumref, exploreref, productref, developerref, playgroundref}) {
+import { useNavigate } from "react-router-dom";
+
+function Header({ preniumref, exploreref, productref, developerref, playgroundref }) {
+  const navigate = useNavigate();
 
   const handleScroll = (ref) => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const linkClasses =
@@ -13,16 +18,12 @@ function Header({ preniumref, exploreref, productref, developerref, playgroundre
   return (
     <div className="min-h-screen bg-[#0d1117] overflow-hidden">
 
-      {/* Navbar thoda niche laya gaya hai using mt-6 */}
+      {/* Navbar */}
       <nav className="bg-[#0d1117] backdrop-blur-sm bg-opacity-80 sticky top-0 z-50 mb-10 mt-6">
         <div className="max-w-7xl mx-auto pr-20 py-4 flex items-center justify-end gap-10 text-md font-extralight">
-
-          {/* Premium Always Gold */}
           <a onClick={() => handleScroll(preniumref)} className={premiumLinkClasses}>
             Premium
           </a>
-
-          {/* Other Links */}
           <a onClick={() => handleScroll(exploreref)} className={linkClasses}>
             Explore
           </a>
@@ -32,8 +33,9 @@ function Header({ preniumref, exploreref, productref, developerref, playgroundre
           <a onClick={() => handleScroll(developerref)} className={linkClasses}>
             Developer
           </a>
-          <a onClick={() => handleScroll(playgroundref)} className={linkClasses}>Playground</a>
-
+          <a onClick={() => handleScroll(playgroundref)} className={linkClasses}>
+            Playground
+          </a>
         </div>
       </nav>
 
@@ -54,26 +56,26 @@ function Header({ preniumref, exploreref, productref, developerref, playgroundre
         {/* Text Section */}
         <div
           className="w-1/2 px-4 text-center font-sans transform transition"
-          style={{
-            transform: "perspective(600px) translateZ(25px) scale(1.1)",
-          }}
+          style={{ transform: "perspective(600px) translateZ(25px) scale(1.1)" }}
         >
-          <h1 className="text-3xl font-bold text-white mb-8">
-            A New Way to Learn
-          </h1>
+          <h1 className="text-3xl font-bold text-white mb-8">A New Way to Learn</h1>
           <p className="text-gray-300 mb-2 text-sm font-normal">
             LeetCode is the best platform to help you enhance your skills, expand
           </p>
           <p className="text-gray-300 mb-6 text-sm font-light">
             your knowledge and prepare for technical interviews.
           </p>
-          <button className="bg-[#2ecc71] hover:bg-[#27ae60] text-white px-6 py-2 rounded-full font-semibold transition">
+
+          {/* Create Account Button → goes to /login */}
+          <button
+            onClick={() => navigate('/login')}
+            className="bg-[#2ecc71] hover:bg-[#27ae60] text-white px-6 py-2 rounded-full font-semibold transition"
+          >
             Create Account →
           </button>
         </div>
 
       </div>
-
     </div>
   );
 }
