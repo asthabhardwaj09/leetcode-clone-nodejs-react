@@ -55,14 +55,8 @@ function Developer() {
     try {
       const response = await fetch("http://localhost:5000/run", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code,
-          language,
-          input: userInput,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, language, input: userInput }),
       });
       const data = await response.json();
       setOutput(data.output);
@@ -74,12 +68,16 @@ function Developer() {
 
   return (
     <div className="min-h-screen bg-blue-50 py-10 px-4 flex flex-col items-center">
-      {/* ✅ Icon + Developer text (Outside the card) */}
+      {/* ✅ Icon + Developer text */}
       <div className="flex flex-col items-center mb-6">
-        <div className="bg-white rounded-full p-2 shadow-md">
-          <FaUserCircle size={50} className="text-gray-800" />
-        </div>
-        <h1 className="text-xl font-semibold text-teal-600 mt-2">Developer</h1>
+        <motion.div
+          className="bg-white rounded-full p-2 shadow-md cursor-pointer mb-2"
+          whileHover={{ scale: 1.1, rotate: 2 }}
+          transition={{ duration: 0.3 }}
+        >
+          <FaUserCircle size={40} className="text-gray-800" />
+        </motion.div>
+        <h1 className="text-teal-500 text-xl font-semibold text-center">Developer</h1>
       </div>
 
       {/* ✅ Main Card */}
