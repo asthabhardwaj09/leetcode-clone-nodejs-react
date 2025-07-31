@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle, FaFacebook, FaGithub, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
@@ -8,6 +8,8 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const [token, setToken] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,8 +22,13 @@ const Login = () => {
       savedUser.password === password
     ) {
       const fakeToken = btoa(`${email}:${password}:${Date.now()}`);
+      localStorage.setItem("leetcode_token", fakeToken); // ✅ Save with correct key
       setToken(fakeToken);
       setMessage("Login successful! 🎉");
+
+      setTimeout(() => {
+        navigate("/playground"); // ✅ Redirect after login
+      }, 1000);
     } else {
       setMessage("Invalid email or password");
       setToken("");
@@ -35,7 +42,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800">Login in</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Login</h2>
           <p className="text-sm text-gray-500 mt-1">
             Get access to more learning features
           </p>

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Product() {
   return (
-    <div className="min-h-screen bg-[#f6f8fa] flex items-center justify-center">
+    <div className="min-h-screen bg-blue-50 flex items-center justify-center">
       <div className="flex flex-col lg:flex-row gap-12 px-6 py-12 max-w-7xl w-full justify-center items-start">
         
         {/* Left Section */}

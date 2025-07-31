@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Explore() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-200">
+    <div className="flex items-center justify-center min-h-screen bg-blue-50">
       <div className="text-center max-w-xl px-4">
         <div className="flex items-center justify-center mb-4">
           {/* Icon with hover effect */}

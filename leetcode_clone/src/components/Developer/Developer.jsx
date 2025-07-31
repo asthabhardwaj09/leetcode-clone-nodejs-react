@@ -73,42 +73,59 @@ function Developer() {
   };
 
   return (
-    <div className="min-h-screen bg-black p-4 flex flex-col items-center">
-      <div className="mb-3">
-        <div className="bg-teal-500 p-1 rounded-full shadow-md">
-          <FaUserCircle size={50} className="text-gray-500" />
+    <div className="min-h-screen bg-blue-50 py-10 px-4 flex flex-col items-center">
+      {/* ✅ Icon + Developer text (Outside the card) */}
+      <div className="flex flex-col items-center mb-6">
+        <div className="bg-white rounded-full p-2 shadow-md">
+          <FaUserCircle size={50} className="text-gray-800" />
         </div>
+        <h1 className="text-xl font-semibold text-teal-600 mt-2">Developer</h1>
       </div>
 
-      <div className="mb-3">
-        <span className='text-teal-500 text-xl font-semibold text-center'>Developer</span>
-      </div>
+      {/* ✅ Main Card */}
+      <div className="bg-[#1e1e1e] text-white w-full max-w-6xl rounded-xl shadow-lg overflow-hidden flex gap-4 p-4">
+        {/* Sidebar */}
+        <aside className="w-[180px] bg-[#1e1e1e] p-3 h-[550px] border-r border-[#333]">
+          <h2 className="text-sm font-bold mb-2">Topics</h2>
+          <ul className="space-y-1 text-sm">
+            {['Linked List', 'Binary Tree', 'Fibonacci'].map((topic) => (
+              <li
+                key={topic}
+                className={`cursor-pointer px-2 py-1 rounded hover:bg-[#333] ${
+                  selectedTopic === topic ? 'bg-[#333] text-teal-300' : 'text-gray-300'
+                }`}
+                onClick={() => setSelectedTopic(topic)}
+              >
+                {topic}
+              </li>
+            ))}
+          </ul>
 
-      <div className='text-gray-500 mb-3'>
-        <p className='text-sm mb-2'>
-          We now support 14 popular coding languages. At our core, LeetCode is about
-        </p>
-        <p className='text-sm mb-2'>
-          developers. Our powerful development tools such as Playground help you test,
-        </p>
-        <p className='text-sm mb-2 text-center'>
-          debug and even write your own projects online.
-        </p>
-      </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedTopic}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 text-xs text-gray-400"
+            >
+              <strong>{selectedTopic}</strong> details shown here.
+            </motion.div>
+          </AnimatePresence>
+        </aside>
 
-      <div className="flex items-start justify-center gap-6 w-full max-w-[1100px]">
-        <div
-          className="flex flex-col bg-white rounded-xl shadow overflow-hidden"
-          style={{ width: '500px', height: '450px' }}
-        >
-          <div className="flex bg-gray-100 border-b px-2 text-xs">
+        {/* Editor Section */}
+        <div className="flex-1 flex flex-col">
+          {/* Language Tabs */}
+          <div className="flex items-center border-b border-[#333] px-4 py-2 text-sm bg-[#1e1e1e]">
             {languageOptions.map((opt) => (
               <button
                 key={opt.id}
-                className={`px-2 py-1 font-medium border-b-2 transition ${
+                className={`px-3 py-1 mr-2 rounded ${
                   language === opt.id
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-600 hover:text-blue-600'
+                    ? 'bg-[#007acc] text-white'
+                    : 'bg-transparent text-gray-400 hover:text-white'
                 }`}
                 onClick={() => {
                   setLanguage(opt.id);
@@ -121,89 +138,59 @@ function Developer() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2 px-2 py-1 border-b bg-white text-xs">
+          {/* Buttons */}
+          <div className="flex items-center gap-3 px-4 py-2 border-b border-[#333] text-sm bg-[#1e1e1e]">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 px-2 py-1 rounded border hover:bg-gray-100"
+              className="flex items-center gap-2 px-3 py-1 rounded bg-[#3c3c3c] hover:bg-[#555]"
             >
               <FiCopy /> Copy
             </button>
             <button
               onClick={handleRun}
-              className="flex items-center gap-1 px-2 py-1 rounded bg-green-600 text-white hover:bg-green-700"
+              className="flex items-center gap-2 px-3 py-1 rounded bg-green-600 hover:bg-green-700"
             >
               <BsPlayFill /> Run
             </button>
             <button
-              className="flex items-center gap-1 px-2 py-1 rounded bg-black text-white hover:bg-gray-900"
+              className="flex items-center gap-2 px-3 py-1 rounded bg-[#007acc] hover:bg-[#005fa3]"
             >
               <VscPreview /> Playground
             </button>
           </div>
 
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 h-full">
-              <Editor
-                theme="vs-dark"
-                language={language}
-                value={code}
-                onChange={(val) => setCode(val)}
-                onMount={handleEditorDidMount}
-                options={{
-                  fontSize: 12,
-                  minimap: { enabled: false },
-                  automaticLayout: true,
-                }}
-                height="200px"
-              />
-            </div>
-            <div className="px-2 py-1 text-xs text-gray-600">
-              <label className="block mb-1">User Input:</label>
-              <textarea
-                rows="3"
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className="w-full border rounded px-2 py-1"
-                placeholder="Enter input here..."
-              />
-            </div>
-            <div className="w-full h-24 bg-gray-50 p-2 overflow-auto text-xs text-gray-700 whitespace-pre-wrap border-t">
-              {output || 'Output will appear here after running the code.'}
-            </div>
+          {/* Editor */}
+          <Editor
+            theme="vs-dark"
+            language={language}
+            value={code}
+            onChange={(val) => setCode(val)}
+            onMount={handleEditorDidMount}
+            options={{
+              fontSize: 14,
+              minimap: { enabled: false },
+              automaticLayout: true,
+            }}
+            height="250px"
+          />
+
+          {/* User Input */}
+          <div className="bg-[#1e1e1e] px-4 py-2 text-sm border-t border-[#333]">
+            <label className="block text-gray-400 mb-1">Input:</label>
+            <textarea
+              rows="3"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              className="w-full bg-[#2d2d2d] border border-[#444] text-white rounded px-2 py-1 resize-none"
+              placeholder="Enter custom input here..."
+            />
+          </div>
+
+          {/* Output */}
+          <div className="bg-black text-green-400 font-mono px-4 py-2 h-[120px] overflow-auto text-xs border-t border-[#333]">
+            {output || 'Output will appear here after running the code.'}
           </div>
         </div>
-
-        <aside style={{ width: '150px', height: '250px' }}>
-          <div className="bg-white rounded-xl shadow p-3 h-full">
-            <h2 className="font-semibold text-xs mb-2">Topics</h2>
-            <ul className="space-y-1 text-xs">
-              {['Linked List', 'Binary Tree', 'Fibonacci'].map((topic) => (
-                <li
-                  key={topic}
-                  className={`cursor-pointer px-2 py-1 rounded hover:bg-blue-50 ${
-                    selectedTopic === topic ? 'text-blue-700 font-semibold' : 'text-gray-700'
-                  }`}
-                  onClick={() => setSelectedTopic(topic)}
-                >
-                  {topic}
-                </li>
-              ))}
-            </ul>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedTopic}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.3 }}
-                className="mt-3 text-[10px] text-gray-600"
-              >
-                <strong>{selectedTopic}</strong> details shown here.
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </aside>
       </div>
     </div>
   );

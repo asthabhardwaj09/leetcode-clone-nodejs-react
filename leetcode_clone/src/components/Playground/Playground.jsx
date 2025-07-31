@@ -8,6 +8,7 @@ const Playground = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [showTimerUI, setShowTimerUI] = useState(false);
   const [activeTab, setActiveTab] = useState("stopwatch");
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const [stopwatchTime, setStopwatchTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -104,30 +105,43 @@ const Playground = () => {
 
   return (
     <div
-      className={`relative min-h-screen px-4 py-6 transition-all duration-300 ${
+      className={`relative ${
+        isFullscreen ? "overflow-hidden" : "min-h-screen px-4 py-6"
+      } transition-all duration-300 ${
         darkMode ? "bg-black text-white" : "bg-gray-100 text-gray-900"
       }`}
     >
-      {/* Top Bar */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Code Editor</h2>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`px-4 py-1 rounded-md shadow-sm border transition-all duration-300
+      {!isFullscreen && (
+        <>
+          {/* Top Bar */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">Code Editor</h2>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`px-4 py-1 rounded-md shadow-sm border transition-all duration-300
               ${
                 darkMode
                   ? "bg-gray-800 text-white border-gray-600"
                   : "bg-white text-black border-gray-300"
               }`}
-          >
-            {darkMode ? "🌙" : "☀️"}
-          </button>
-          <button onClick={toggleTimerUI} className="text-xl">
-            🕗
-          </button>
-        </div>
-      </div>
+              >
+                {darkMode ? "🌙" : "☀️"}
+              </button>
+              <button onClick={toggleTimerUI} className="text-xl">
+                🕗
+              </button>
+              <button
+                onClick={() => setIsFullscreen(true)}
+                className="text-xl"
+                title="Go Fullscreen"
+              >
+                ⛶
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Timer UI */}
       {showTimerUI && (
@@ -158,7 +172,6 @@ const Playground = () => {
             </button>
           </div>
 
-          {/* Stopwatch View */}
           {activeTab === "stopwatch" && (
             <div className="text-center space-y-2">
               <div className="flex justify-center items-center gap-2">
@@ -181,7 +194,7 @@ const Playground = () => {
                 onClick={() => {
                   setStopwatchTime(0);
                   setIsRunning(true);
-                  setShowTimerUI(false); // Hide card
+                  setShowTimerUI(false);
                 }}
                 className="w-full bg-white text-black font-semibold py-2 rounded-lg flex items-center justify-center gap-2"
               >
@@ -190,7 +203,6 @@ const Playground = () => {
             </div>
           )}
 
-          {/* Timer View */}
           {activeTab === "timer" && (
             <div className="flex flex-col items-center justify-center gap-4">
               <div className="flex items-center gap-2">
@@ -234,7 +246,7 @@ const Playground = () => {
               <button
                 onClick={() => {
                   startTimer();
-                  setShowTimerUI(false); // Hide card
+                  setShowTimerUI(false);
                 }}
                 className="w-full bg-white text-black font-semibold py-2 rounded-lg flex items-center justify-center gap-2"
               >
@@ -245,10 +257,26 @@ const Playground = () => {
         </div>
       )}
 
-      {/* Code Editor */}
-      <div className="mb-6">
+      {/* Editor */}
+      <div
+        className={`${
+          isFullscreen
+            ? "fixed top-0 left-0 w-screen h-screen z-50"
+            : "mb-6 relative"
+        }`}
+      >
+        {isFullscreen && (
+          <button
+            onClick={() => setIsFullscreen(false)}
+            className="absolute top-2 right-4 z-50 px-2 py-1 bg-white text-black rounded shadow text-sm"
+            title="Exit Fullscreen"
+          >
+            ❌ Exit Fullscreen
+          </button>
+        )}
+
         <Editor
-          height="40vh"
+          height={isFullscreen ? "100%" : "40vh"}
           width="100%"
           defaultLanguage="python"
           defaultValue={code}
@@ -258,50 +286,52 @@ const Playground = () => {
       </div>
 
       {/* Input + Output Section */}
-      <div
-        className={`rounded-lg p-6 shadow-md transition-all duration-300 ${
-          darkMode ? "bg-[#111]" : "bg-white"
-        }`}
-      >
-        <div className="mb-4">
-          <h4 className="font-semibold mb-2">Input (Optional):</h4>
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            rows="5"
-            placeholder="Enter custom input here"
-            className={`w-full p-3 rounded-md border font-mono resize-y outline-none transition
-              ${
-                darkMode
-                  ? "bg-[#1e1e1e] text-white border-gray-600"
-                  : "bg-gray-100 text-black border-gray-300"
-              }`}
-          />
-        </div>
+      {!isFullscreen && (
+        <div
+          className={`rounded-lg p-6 shadow-md transition-all duration-300 ${
+            darkMode ? "bg-[#111]" : "bg-white"
+          }`}
+        >
+          <div className="mb-4">
+            <h4 className="font-semibold mb-2">Input:</h4>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              rows="5"
+              placeholder="Enter custom input here"
+              className={`w-full p-3 rounded-md border font-mono resize-y outline-none transition
+                ${
+                  darkMode
+                    ? "bg-[#1e1e1e] text-white border-gray-600"
+                    : "bg-gray-100 text-black border-gray-300"
+                }`}
+            />
+          </div>
 
-        <div className="mb-4">
-          <button
-            onClick={handleSubmit}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition duration-200"
-          >
-            Run Code
-          </button>
-        </div>
+          <div className="mb-4">
+            <button
+              onClick={handleSubmit}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow transition duration-200"
+            >
+              Run Code
+            </button>
+          </div>
 
-        <div>
-          <h4 className="font-semibold mb-2">Output:</h4>
-          <pre
-            className={`whitespace-pre-wrap p-4 rounded-md text-sm font-mono border transition
-              ${
-                darkMode
-                  ? "bg-[#1e1e1e] text-green-400 border-gray-600"
-                  : "bg-gray-100 text-black border-gray-300"
-              }`}
-          >
-            {output}
-          </pre>
+          <div>
+            <h4 className="font-semibold mb-2">Output:</h4>
+            <pre
+              className={`whitespace-pre-wrap p-4 rounded-md text-sm font-mono border transition
+                ${
+                  darkMode
+                    ? "bg-[#1e1e1e] text-green-400 border-gray-600"
+                    : "bg-gray-100 text-black border-gray-300"
+                }`}
+            >
+              {output}
+            </pre>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

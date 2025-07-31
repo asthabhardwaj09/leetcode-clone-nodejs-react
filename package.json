@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "aos": "^2.3.4",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
